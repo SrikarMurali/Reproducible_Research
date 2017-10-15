@@ -1,0 +1,145 @@
+---
+title: "PA1_Template"
+author: "Srikar Murali"
+date: "October 14, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(xts)
+
+```
+
+## Load Data
+
+
+```{r load}
+data <- read.csv('C:/Users/srika/Documents/R/John Hopkins/Reproducible Research/activity.csv', header = TRUE)
+data2 <- na.omit(data)
+
+data2$date <- as.Date(data2$date)
+
+
+
+```
+
+## Mean total number of steps
+
+You can also embed plots, for example:
+
+```{r mean1}
+dailySteps <- data2 %>%
+  group_by(date) %>%
+  summarise(TotalSteps = sum(steps))
+dailySteps
+stepHist <- ggplot(dailySteps, aes(TotalSteps)) +
+  geom_histogram(fill = 'blue') +
+  xlab('Total Number of steps per day') +
+  ylab('Count') +
+  ggtitle('Histogram of steps by day')
+stepHist
+
+averageSteps <- mean(dailySteps$TotalSteps)
+#Average number of steps
+averageSteps
+
+medianSteps <- median(dailySteps$TotalSteps)
+#Median number of steps
+medianSteps
+
+stepsTSeries <- xts(dailySteps$TotalSteps, order.by = dailySteps$date)
+
+```
+
+The average number of steps is 10766.19. The median number of steps is 10765.
+
+```{r average daily pattern}
+intervalTSeries <- data2 %>%
+  group_by(interval) %>%
+  summarise(AvgSteps = mean(steps))
+intervalTSeries
+
+plot(intervalTSeries$interval, intervalTSeries$AvgSteps,
+     type = 'l',
+     xlab = 'Interval',
+     ylab = 'Average Steps',
+     main = 'Average Steps by Interval')
+maxSteps <- intervalTSeries$interval[which.max(intervalTSeries$AvgSteps)]
+maxSteps
+```
+
+The 835th interval had the max steps.
+
+## Remove Na's
+```{r NA}
+
+nas <- sum(is.na(data$steps))
+nas
+
+filledData <- data
+
+meansteps <- mean(data2$steps)
+meansteps
+filledData$steps[is.na(filledData$steps)] <- meansteps
+
+filledDataNas <- sum(is.na(filledData$steps))
+filledDataNas
+
+dailySteps2 <- filledData %>%
+  group_by(date) %>%
+  summarise(TotalSteps = sum(steps))
+dailySteps2
+
+stepHist2 <- ggplot(dailySteps2, aes(TotalSteps)) +
+  geom_histogram(fill = 'blue') +
+  xlab('Total Number of steps per day') +
+  ylab('Count') +
+  ggtitle('Histogram of steps by day')
+stepHist2
+
+medianSteps2 <- median(dailySteps2$TotalSteps)
+medianSteps2
+
+meanSteps2 <- mean(dailySteps2$TotalSteps)
+meanSteps2
+
+```
+
+There are 2304 NA's. The NA's were replaced by the mean. The mean stayed the same while the median became the mean, since all of the NA's were replaced by the mean. The histogram became slightly different, with it being more bunched in the middle since all of the NA's are now the mean.
+
+
+## Weekends and Weekdays
+```{r weekdays}
+filledData$date <- as.Date(filledData$date)
+filledData$Day <- weekdays(filledData$date)
+
+
+filledData$dtype <- 'weekday'
+filledData$dtype[filledData$Day %in% c('Saturday', 'Sunday')] <- 'weekend'
+
+avgDay <- filledData %>%
+  group_by(dtype, interval) %>%
+  summarise(AvgSteps = mean(steps))
+avgDay
+
+t <- ggplot(avgDay, aes(interval, AvgSteps)) +
+  geom_line() + 
+  xlab('Interval') +
+  ylab('Average Step Count') +
+  ggtitle('Average steps by Weekend vs Weekday') +
+  facet_wrap(~dtype)
+t
+
+```
+
+Activity is earlier on the weekdays as people have to get up early to go to work or school or some other place.
+
+
