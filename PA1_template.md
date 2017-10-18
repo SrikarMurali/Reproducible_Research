@@ -45,7 +45,7 @@ ggplot(dailySteps, aes(TotalSteps)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](PA1_template_files/figure-markdown_github/mean1-1.png?raw=true)
+![](PA1_templatefiles/figure-markdowngithub/mean1-1.png?raw=true)
 
 ``` r
 averageSteps <- mean(dailySteps$TotalSteps)
@@ -99,7 +99,7 @@ plot(intervalTSeries$interval, intervalTSeries$AvgSteps,
      main = 'Average Steps by Interval')
 ```
 
-![](PA1_template_files/figure-markdown_github/average%20daily%20pattern-1.png?raw=true)
+![](PA1templatefiles/figure-markdowngithub/average%20daily%20pattern-1.png?raw=true)
 
 ``` r
 maxSteps <- intervalTSeries$interval[which.max(intervalTSeries$AvgSteps)]
@@ -170,7 +170,7 @@ ggplot(dailySteps2, aes(TotalSteps)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](PA1_template_files/figure-markdown_github/NA-1.png?raw=true)
+![](PA1templatefiles/figure-markdowngithub/NA-1.png?raw=true)
 
 ``` r
 medianSteps2 <- median(dailySteps2$TotalSteps)
@@ -230,6 +230,6 @@ ggplot(avgDay, aes(interval, AvgSteps)) +
   facet_wrap(~dtype)
 ```
 
-![](PA1_template_files/figure-markdown_github/weekdays-1.png?raw=true)
+![](PA1templatefiles/figure-markdowngithub/weekdays-1.png?raw=true)
 
 Activity is earlier on the weekdays as people have to get up early to go to work or school or some other place.
