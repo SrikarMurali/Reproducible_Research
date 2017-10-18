@@ -36,17 +36,16 @@ dailySteps
     ## # ... with 43 more rows
 
 ``` r
-stepHist <- ggplot(dailySteps, aes(TotalSteps)) +
+ggplot(dailySteps, aes(TotalSteps)) +
   geom_histogram(fill = 'blue') +
   xlab('Total Number of steps per day') +
   ylab('Count') +
   ggtitle('Histogram of steps by day')
-stepHist
 ```
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](PA1_template_files/figure-markdown_github/mean1-1.png)
+![](PA1_template_files/figure-markdown_github/mean1-1.png?raw=true)
 
 ``` r
 averageSteps <- mean(dailySteps$TotalSteps)
@@ -100,7 +99,7 @@ plot(intervalTSeries$interval, intervalTSeries$AvgSteps,
      main = 'Average Steps by Interval')
 ```
 
-![](PA1_template_files/figure-markdown_github/average%20daily%20pattern-1.png)
+![](PA1_template_files/figure-markdown_github/average%20daily%20pattern-1.png?raw=true)
 
 ``` r
 maxSteps <- intervalTSeries$interval[which.max(intervalTSeries$AvgSteps)]
@@ -162,17 +161,16 @@ dailySteps2
     ## # ... with 51 more rows
 
 ``` r
-stepHist2 <- ggplot(dailySteps2, aes(TotalSteps)) +
+ggplot(dailySteps2, aes(TotalSteps)) +
   geom_histogram(fill = 'blue') +
   xlab('Total Number of steps per day') +
   ylab('Count') +
   ggtitle('Histogram of steps by day')
-stepHist2
 ```
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](PA1_template_files/figure-markdown_github/NA-1.png)
+![](PA1_template_files/figure-markdown_github/NA-1.png?raw=true)
 
 ``` r
 medianSteps2 <- median(dailySteps2$TotalSteps)
@@ -224,15 +222,14 @@ avgDay
     ## # ... with 566 more rows
 
 ``` r
-t <- ggplot(avgDay, aes(interval, AvgSteps)) +
+ggplot(avgDay, aes(interval, AvgSteps)) +
   geom_line() + 
   xlab('Interval') +
   ylab('Average Step Count') +
   ggtitle('Average steps by Weekend vs Weekday') +
   facet_wrap(~dtype)
-t
 ```
 
-![](PA1_template_files/figure-markdown_github/weekdays-1.png)
+![](PA1_template_files/figure-markdown_github/weekdays-1.png?raw=true)
 
 Activity is earlier on the weekdays as people have to get up early to go to work or school or some other place.
